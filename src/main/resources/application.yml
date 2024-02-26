@@ -1,0 +1,47 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /banktest
+    
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  application:
+    name: banktest
+  profiles:
+    default: dev
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api-docs
+    
+logging:
+  file:
+    name: LOG_FOLDER/MS/Endpoint_MS.log
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+     org.springframework.web: DEBUG
+     org: INFO
+     com.example.banktest: INFO
+      
+jwt:
+  secret: your-secret-key
+  expiration: 86400000  # Tiempo de expiración en milisegundos (24 horas en este ejemplo)
+  
+regex:
+  email: "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+  password: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
+
+#    
+#spring:
+#  datasource:
+#    url: jdbc:hsqldb:mem:testdb
+#    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+#    username: sa
+#    password:
+#  jpa:
+#    database-platform: org.hibernate.dialect.HSQLDialect
