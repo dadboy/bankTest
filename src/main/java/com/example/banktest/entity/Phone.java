@@ -24,8 +24,8 @@ public class Phone {
 	private Long id;
 
 	private String number;
-	private String citycode;
-	private String contrycode;
+	private String cityCode;
+	private String countryCode;
 
 	// Relación ManyToOne con User
 	@ManyToOne
@@ -51,20 +51,20 @@ public class Phone {
 		this.number = number;
 	}
 
-	public String getCitycode() {
-		return citycode;
+	public String getCityCode() {
+		return cityCode;
 	}
 
-	public void setCitycode(String citycode) {
-		this.citycode = citycode;
+	public void setCityCode(String citycode) {
+		this.cityCode = citycode;
 	}
 
-	public String getContrycode() {
-		return contrycode;
+	public String getCuontryCode() {
+		return countryCode;
 	}
 
-	public void setContrycode(String contrycode) {
-		this.contrycode = contrycode;
+	public void setCountryCode(String contrycode) {
+		this.countryCode = contrycode;
 	}
 
 	public User getUser() {

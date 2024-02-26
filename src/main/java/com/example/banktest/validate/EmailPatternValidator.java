@@ -16,6 +16,10 @@ public class EmailPatternValidator implements ConstraintValidator<ValidEmailPatt
 	@Value("${regex.email}")
 	private String emailRegex;
 
+	public EmailPatternValidator(@Value("${regex.email}") String emailRegex) {
+		this.emailRegex = emailRegex;
+	}
+
 	@Override
 	public void initialize(ValidEmailPattern constraintAnnotation) {
 	}

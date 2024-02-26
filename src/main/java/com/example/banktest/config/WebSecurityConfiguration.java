@@ -33,7 +33,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				// Permitir acceso sin autenticación a las rutas de inicio de sesión y creación
 				// de usuario
-				.antMatchers(HttpMethod.POST, "/login").permitAll()
+				.antMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
 				// Resto de las rutas requieren autenticación
 				.anyRequest().authenticated();

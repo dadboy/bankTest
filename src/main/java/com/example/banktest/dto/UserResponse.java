@@ -1,8 +1,10 @@
 package com.example.banktest.dto;
 
+import java.util.UUID;
+
 public class UserResponse {
 
-	private Long id;
+	private UUID id;
 
 	private String created;
 
@@ -15,22 +17,22 @@ public class UserResponse {
 	private String isActive;
 
 	// Constructor
-	public UserResponse(Long id, String created, String modified, String laslogin, String token, String isActive) {
-		this.id = id;
+	public UserResponse(UUID uuid, String created, String modified, String laslogin, String token, String isActive) {
+		this.setId(uuid);
 		this.created = created;
 		this.modified = modified;
 		this.laslogin = laslogin;
 		this.token = token;
 		this.isActive = isActive;
 	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+//
+//	public Long getId() {
+//		return id;
+//	}
+//
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
 
 	public String getCreated() {
 		return created;
@@ -70,6 +72,14 @@ public class UserResponse {
 
 	public void setIsActive(String isActive) {
 		this.isActive = isActive;
+	}
+
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
 	}
 
 }

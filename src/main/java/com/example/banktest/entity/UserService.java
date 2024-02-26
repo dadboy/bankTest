@@ -2,6 +2,7 @@ package com.example.banktest.entity;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public Optional<User> findById(Long id) {
+	public Optional<User> findById(UUID id) {
 		return userRepository.findById(id);
 	}
 
@@ -33,7 +34,7 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public void deleteById(Long id) {
+	public void deleteById(UUID id) {
 		userRepository.deleteById(id);
 	}
 

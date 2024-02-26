@@ -35,13 +35,14 @@ jwt:
 regex:
   email: "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
   password: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
-
-#    
-#spring:
-#  datasource:
-#    url: jdbc:hsqldb:mem:testdb
-#    driver-class-name: org.hsqldb.jdbc.JDBCDriver
-#    username: sa
-#    password:
-#  jpa:
-#    database-platform: org.hibernate.dialect.HSQLDialect
+  
+---
+    
+spring:
+  config:
+    activate:
+      on-profile: test
+      
+regex:
+  email: "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+  password: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"

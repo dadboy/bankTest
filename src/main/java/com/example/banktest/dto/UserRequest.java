@@ -18,8 +18,8 @@ public class UserRequest implements Serializable {
 
 	private static final long serialVersionUID = 3221106626919993440L;
 
-	@ApiModelProperty(name = "ID", value = "id del usuario")
-	private Long id;
+//	@ApiModelProperty(name = "ID", value = "id del usuario")
+//	private Long id;
 
 	@ApiModelProperty(name = "nombre", value = "Nombre del usuario")
 	@NotNull(message = "nombre no puede ser nulo")
@@ -39,14 +39,6 @@ public class UserRequest implements Serializable {
 	private String password;
 
 	private List<PhoneDTO> phones;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;

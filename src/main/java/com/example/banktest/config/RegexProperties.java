@@ -1,42 +1,32 @@
 package com.example.banktest.config;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConfigurationProperties(prefix = "regex")
+
 public class RegexProperties {
 
-	@Value("${regex.email}")
-	private String regexEmail;
 
-	@Value("${regex.password}")
-	private String regexPassword;
+    private String email;
+    private String password;
 
-	@PostConstruct
-	public void postConstruct() {
-		System.out.println("Regex Email: " + regexEmail);
-		System.out.println("Regex Password: " + regexPassword);
+    // Getters y setters para las propiedades email y password
 
-		validateProperties();
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	private void validateProperties() {
-		if (regexEmail == null || regexEmail.isEmpty()) {
-			throw new IllegalStateException("La propiedad 'regex.email' no está configurada correctamente.");
-		}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-		if (regexPassword == null || regexPassword.isEmpty()) {
-			throw new IllegalStateException("La propiedad 'regex.password' no está configurada correctamente.");
-		}
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public String getRegexEmail() {
-		return regexEmail;
-	}
-
-	public String getRegexPassword() {
-		return regexPassword;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

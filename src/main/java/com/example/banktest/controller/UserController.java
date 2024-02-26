@@ -1,11 +1,11 @@
 package com.example.banktest.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.banktest.dto.UserRequest;
-import com.example.banktest.dto.UserResponse;
 import com.example.banktest.entity.User;
-import com.example.banktest.entity.UserService;
 
 /**
  *
@@ -35,15 +33,15 @@ import com.example.banktest.entity.UserService;
 @Validated
 public class UserController {
 
-	private final UserService userService;
+//	private final UserService userService;
 
 	@Autowired
 	private UserFacade userFacade;
 
 	// TODO; eliminar
-	public UserController(UserService userService) {
-		this.userService = userService;
-	}
+//	public UserController(UserService userService) {
+//		this.userService = userService;
+//	}
 
 	@PostMapping(value = "/", consumes = {
 			MediaType.APPLICATION_JSON_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,12 +55,12 @@ public class UserController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<User>> findAll() {
+	public ResponseEntity<List<User>> findAll(@RequestHeader(value = "x-auth-token") String xAuthToken) {
 
 		ResponseEntity<List<User>> usersResponse = userFacade.findAll();
-		// Obtén la lista de usuarios del ResponseEntity
+
 		List<User> users = usersResponse.getBody();
-		// Verifica si la lista de usuarios está vacía
+
 		if (users == null || users.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		} else {
@@ -72,33 +70,36 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<User> findById(@PathVariable Long id) {
-		Optional<User> product = userService.findById(id);
+	public ResponseEntity<?> findById(@PathVariable String id,
+			@RequestHeader(value = "x-auth-token") String xAuthToken) {
 
-		return ResponseEntity.ok(userService.findById(id).get());
+		ResponseEntity<?> usersResponse = userFacade.findById(id);
+
+		return ResponseEntity.ok(usersResponse.getBody());
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<User> update(@PathVariable Long id, @Valid @RequestBody User user) {
-		return ResponseEntity.accepted().body(userService.save(user));
+	public ResponseEntity<?> update(@PathVariable String id, @Valid @RequestBody UserRequest userRequest,
+			@RequestHeader(value = "x-auth-token") String xAuthToken) {
+
+		ResponseEntity<?> response = userFacade.update(userRequest, xAuthToken, id);
+
+		return ResponseEntity.ok(response.getBody());
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id) {
-		userService.deleteById(id);
+	public ResponseEntity<?> delete(@PathVariable String id, @RequestHeader(value = "x-auth-token") String xAuthToken) {
 
-		return ResponseEntity.accepted().build();
+		ResponseEntity<?> response = userFacade.delete(id);
+
+		if (response.getStatusCode() == HttpStatus.OK) {
+			return ResponseEntity.accepted().build();
+		} else if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return response;
+		}
 	}
 
-//    @GetMapping("/public")
-//    public String publicEndpoint() {
-//        return "Public Endpoint";
-//    }
-//
-//    @GetMapping("/secure")
-//    @PreAuthorize("hasRole('ROLE_USER')")
-//    public String secureEndpoint() {
-//        return "Secure Endpoint";
-//    }
 
 }

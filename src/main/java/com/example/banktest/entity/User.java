@@ -2,15 +2,18 @@ package com.example.banktest.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -23,8 +26,10 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@Column(name = "id", columnDefinition = "BINARY(16)")
+	private UUID id;
 
 	private String name;
 	private String email;
@@ -33,7 +38,7 @@ public class User {
 	// Nuevos campos
 	private LocalDateTime created;
 	private LocalDateTime modified;
-	private LocalDateTime laslogin;
+	private LocalDateTime lastLogin;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "user_id")
@@ -44,16 +49,16 @@ public class User {
 	public User() {
 		this.created = LocalDateTime.now();
 		this.modified = LocalDateTime.now();
-		this.laslogin = LocalDateTime.now();
+		this.lastLogin = LocalDateTime.now();
 	}
 
 	// Getters y setters
 
-	public Long getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -97,16 +102,16 @@ public class User {
 		return modified;
 	}
 
-	public LocalDateTime getLaslogin() {
-		return laslogin;
+	public LocalDateTime getLastLogin() {
+		return lastLogin;
 	}
 
 	public void setModified() {
 		this.modified = LocalDateTime.now();
 	}
 
-	public void setLaslogin() {
-		this.laslogin = LocalDateTime.now();
+	public void setLastLogin() {
+		this.lastLogin = LocalDateTime.now();
 	}
 
 	public String getToken() {
@@ -116,4 +121,6 @@ public class User {
 	public void setToken(String token) {
 		this.token = token;
 	}
+
+
 }

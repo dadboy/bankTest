@@ -1,7 +1,10 @@
 package com.example.banktest.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,22 +34,20 @@ public class UserFacade {
 	public ResponseEntity<?> save(UserRequest userDTO, String xAuthToken) {
 
 		User user = UserMapper.convertToEntity(userDTO, xAuthToken);
-		
-		 Optional<User> existingUser = userRepository.findByEmail(userDTO.getEmail());
-	        if (existingUser.isPresent()) {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-	                .body(new UserResponseError("El correo ya está registrado"));
-	        }
+
+		Optional<User> existingUser = userRepository.findByEmail(userDTO.getEmail());
+		if (existingUser.isPresent()) {
+
+			Map<String, String> responseBody = new HashMap<>();
+			responseBody.put("error", "El correo ya está registrado");
+			return ResponseEntity.status(HttpStatus.CONFLICT)
+					.body(new UserResponseError("El correo ya está registrado"));
+		}
 		User savedUser = userRepository.save(user);
 
 		// Crear un objeto UserResponseDTO con la información requerida
-		UserResponse responseDTO = 
-					new UserResponse(savedUser.getId(), 
-									savedUser.getCreated().toString(),
-									savedUser.getModified().toString(), 
-									savedUser.getLaslogin().toString(),
-									savedUser.getToken(), 
-									"true" // Reemplaza esto con la lógica para determinar el estado activo
+		UserResponse responseDTO = new UserResponse(savedUser.getId(), savedUser.getCreated().toString(),
+				savedUser.getModified().toString(), savedUser.getLastLogin().toString(), savedUser.getToken(), "true"
 
 		);
 		return ResponseEntity.ok(responseDTO);
@@ -59,8 +60,80 @@ public class UserFacade {
 
 		return ResponseEntity.ok(users);
 
-//		return (ResponseEntity<User>) userRepository.findAll();
+	}
 
+	public ResponseEntity<?> findById( String id) {
+
+		UUID userId = null;
+		try {
+			// Convierte el String a UUID
+			userId = UUID.fromString(id);
+
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body("Invalid UUID format");
+		}
+
+		
+		Optional<User> userList = userRepository.findById(userId);
+
+		return ResponseEntity.ok(userList);
+
+	}
+	
+	public ResponseEntity<?> delete(String id) {
+		UUID userId = null;
+		try {
+			// Convierte el String a UUID
+			userId = UUID.fromString(id);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body("Invalid UUID format");
+		}
+
+		Optional<User> optionalUser = userRepository.findById(userId);
+
+		if (optionalUser.isPresent()) {
+			User deletedUser = optionalUser.get();
+
+			// Elimina el usuario de la base de datos
+			userRepository.deleteById(userId);
+
+			return ResponseEntity.ok(deletedUser);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
+	public ResponseEntity<?> update(UserRequest userDTO, String xAuthToken, String id) {
+		UUID userId = null;
+		try {
+			// Convierte el String a UUID
+			userId = UUID.fromString(id);
+
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body("Invalid UUID format");
+		}
+
+		Optional<User> optionalUser = userRepository.findById(userId);
+
+		// Verifica si el usuario existe
+		if (optionalUser.isPresent()) {
+			User existingUser = optionalUser.get();
+
+			existingUser.setName(userDTO.getName());
+			existingUser.setEmail(userDTO.getEmail());
+			existingUser.setPassword(userDTO.getPassword());
+
+			 // Actualiza los teléfonos del usuario
+            List<Phone> updatedPhones = updatePhones(existingUser.getPhones(), userDTO.getPhones());
+            existingUser.setPhones(updatedPhones);
+            
+			User savedUser = userRepository.save(existingUser);
+
+			return ResponseEntity.ok(savedUser);
+		} else {
+
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	public class UserMapper {
@@ -83,9 +156,45 @@ public class UserFacade {
 		public static Phone convertToEntity(PhoneDTO phoneDTO) {
 			Phone phone = new Phone();
 			phone.setNumber(phoneDTO.getNumber());
-			phone.setCitycode(phoneDTO.getCitycode());
-			phone.setContrycode(phoneDTO.getContrycode());
+			phone.setCityCode(phoneDTO.getCitycode());
+			phone.setCityCode(phoneDTO.getContrycode());
 			return phone;
 		}
+	}
+	
+	private List<Phone> updatePhones(List<Phone> existingPhones, List<PhoneDTO> newPhones) {
+		int minSize = Math.min(existingPhones.size(), newPhones.size());
+
+		for (int i = 0; i < minSize; i++) {
+			Phone existingPhone = existingPhones.get(i);
+			PhoneDTO newPhoneDTO = newPhones.get(i);
+
+			// Actualiza los campos del teléfono según tus necesidades
+			existingPhone.setCityCode(newPhoneDTO.getCitycode());
+			existingPhone.setCountryCode(newPhoneDTO.getContrycode());
+			existingPhone.setNumber(newPhoneDTO.getNumber());
+
+			// Puedes agregar más campos a actualizar según sea necesario
+		}
+
+		// Si la lista de nuevos teléfonos es más larga, agrega nuevos teléfonos
+		for (int i = minSize; i < newPhones.size(); i++) {
+			PhoneDTO newPhoneDTO = newPhones.get(i);
+
+			// Crea un nuevo teléfono con la información de newPhoneDTO
+			Phone newPhone = new Phone();
+			newPhone.setCityCode(newPhoneDTO.getCitycode());
+			newPhone.setCountryCode(newPhoneDTO.getContrycode());
+			newPhone.setNumber(newPhoneDTO.getNumber());
+
+			// Puedes agregar más campos según sea necesario
+			// Agrega el nuevo teléfono a la lista de teléfonos existentes
+			existingPhones.add(newPhone);
+		}
+
+		// Puedes agregar lógica adicional para manejar la eliminación de teléfonos si
+		// es necesario
+
+		return existingPhones;
 	}
 }

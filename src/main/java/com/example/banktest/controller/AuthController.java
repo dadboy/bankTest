@@ -23,7 +23,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  */
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/login")
 public class AuthController {
 
 	@PostMapping
