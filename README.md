@@ -1,6 +1,6 @@
-# icbs-mobil-back-api-rest-login
+# bankTest
 
-proyecto que contiene la logica para login api rest
+proyecto que contiene la logica para login y crud 
 
 #Levantar proyecto
 
@@ -10,14 +10,31 @@ proyecto que contiene la logica para login api rest
 #Url swagger UI
 http://localhost:8080/banktest/swagger-ui.html#/
 
-
+------------------------------------------------------------------------------------------
 
 #Pruebas Apis
 
 
-#1. se debe consultar la api http://localhost:8080/banktest/api/v1/user?user=david&password=asdasd
+#1. se debe consultar la api:
 
-esta api genera el token de acceso para poder acceder a las siguientes apis de usuario
+ - http://localhost:8080/banktest/api/v1/user?user=david
+	para este caso la api ya esta con usuario a modo de prueba
+
+ - lo que nos entregara la api como respuesta sera el usuario y el token generado por JWT para poder acceder a las demas api de la aplicacion
+ 	
+ 	Respuesta
+ 	
+	{
+	    "username": "david",
+	    "token": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiZGF2aWQiLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzA5MDA1MzU1LCJleHAiOjE3MDkwMDU5NTV9.IYkGge35rgB2GFkbVZftSr2qREB1saV1mn4wgvDzsWUWgAyUOBB8FmyqRNijrr3np8hgwJO21fCxprukFIcH2Q"
+	}
+ 	
+#2. Accediendo a las APis del crud
+
+ - luego con el token ya generado, podemos realizar las operaciones de la aplicación, siempre agregando como header el token en la variable "x-auth-token", ya que nos dara permisos de acceso a las demas funcionalidades.	
+
+
+
 
 #2. Creacion de usuario POST http://localhost:8080/banktest/api/v1/users/
 
@@ -40,8 +57,4 @@ Respuesta
 
 
 
-
-
-#Url swagger UI
-http://localhost:8080/banktest/swagger-ui.html#/
 

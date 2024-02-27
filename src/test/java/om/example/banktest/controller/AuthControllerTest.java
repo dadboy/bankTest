@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.banktest.BanktestApplication;
 import com.example.banktest.config.RegexProperties;
-import com.example.banktest.dto.LoginRequest;
+import com.example.banktest.dto.LoginResponse;
 
 @EnableConfigurationProperties(value = RegexProperties.class)
 @SpringBootTest(classes = BanktestApplication.class, 
@@ -53,11 +53,11 @@ public class AuthControllerTest {
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
 
-        ResponseEntity<LoginRequest> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, LoginRequest.class);
+        ResponseEntity<LoginResponse> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, LoginResponse.class);
 
         assertEquals(200, response.getStatusCodeValue());
 
-        LoginRequest loginResponse = response.getBody();
+        LoginResponse loginResponse = response.getBody();
         assertNotNull(loginResponse);
         assertNotNull(loginResponse.getToken());
 

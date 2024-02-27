@@ -21,8 +21,11 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
 /**
- *
  * @author despinoza
+ *
+ *         Filtro encargado de interceptar las invocaciones a recursos
+ *         protegidos para recuperar el token y determinar si el cliente tiene
+ *         permisos o no
  *
  */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -59,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Metodo para autenticarnos dentro del flujo de Spring
+	 * Metodo para autenticar dentro d
 	 * 
 	 * @param claims
 	 */

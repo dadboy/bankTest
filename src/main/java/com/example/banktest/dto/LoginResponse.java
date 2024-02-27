@@ -5,7 +5,7 @@ package com.example.banktest.dto;
  * @author despinoza
  *
  */
-public class LoginRequest {
+public class LoginResponse {
 
 	private String username;
 	private String token;

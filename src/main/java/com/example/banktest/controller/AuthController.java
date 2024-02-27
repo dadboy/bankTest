@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.banktest.dto.LoginRequest;
+import com.example.banktest.dto.LoginResponse;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,10 +27,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class AuthController {
 
 	@PostMapping
-	public LoginRequest login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
+	public LoginResponse login(@RequestParam("user") String username) {
 
 		String token = getJWTToken(username);
-		LoginRequest user = new LoginRequest();
+		LoginResponse user = new LoginResponse();
 		user.setUsername(username);
 		user.setToken(token);
 		return user;

@@ -28,17 +28,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// Desactivar CSRF y configurar el filtro de autenticación JWT
 		http.csrf().disable()
 				.addFilterAfter(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
 				// Permitir acceso sin autenticación a estas rutas específicas
 				.antMatchers(AUTH_WHITELIST)
 				.permitAll()
-				// Permitir acceso sin autenticación a las rutas de inicio de sesión y creación
-				// de usuario
+				// Permitir acceso sin autenticación a las rutas de inicio de sesión
 				.antMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
-				.antMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
 				// Resto de las rutas requieren autenticación
 				.anyRequest().authenticated();
 	}
