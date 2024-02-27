@@ -57,7 +57,6 @@ public class UserFacade {
 	public ResponseEntity<List<User>> findAll() {
 
 		List<User> users = userRepository.findAll();
-
 		return ResponseEntity.ok(users);
 
 	}
@@ -73,7 +72,6 @@ public class UserFacade {
 			return ResponseEntity.badRequest().body("Invalid UUID format");
 		}
 
-		
 		Optional<User> userList = userRepository.findById(userId);
 
 		return ResponseEntity.ok(userList);
@@ -169,15 +167,12 @@ public class UserFacade {
 			Phone existingPhone = existingPhones.get(i);
 			PhoneDTO newPhoneDTO = newPhones.get(i);
 
-			// Actualiza los campos del teléfono según tus necesidades
 			existingPhone.setCityCode(newPhoneDTO.getCitycode());
 			existingPhone.setCountryCode(newPhoneDTO.getContrycode());
 			existingPhone.setNumber(newPhoneDTO.getNumber());
 
-			// Puedes agregar más campos a actualizar según sea necesario
 		}
 
-		// Si la lista de nuevos teléfonos es más larga, agrega nuevos teléfonos
 		for (int i = minSize; i < newPhones.size(); i++) {
 			PhoneDTO newPhoneDTO = newPhones.get(i);
 
@@ -187,13 +182,8 @@ public class UserFacade {
 			newPhone.setCountryCode(newPhoneDTO.getContrycode());
 			newPhone.setNumber(newPhoneDTO.getNumber());
 
-			// Puedes agregar más campos según sea necesario
-			// Agrega el nuevo teléfono a la lista de teléfonos existentes
 			existingPhones.add(newPhone);
 		}
-
-		// Puedes agregar lógica adicional para manejar la eliminación de teléfonos si
-		// es necesario
 
 		return existingPhones;
 	}
