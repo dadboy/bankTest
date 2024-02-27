@@ -33,6 +33,7 @@ http://localhost:8080/banktest/swagger-ui.html#/
 
  - luego con el token ya generado, podemos realizar las operaciones de la aplicación, siempre agregando como header el token en la variable "x-auth-token", ya que nos dara permisos de acceso a las demas funcionalidades.	
 
+![Imagen de prueba](https://github.com/dadboy/bankTest/blob/master/src/main/resources/CreateAPi.png)
 
 
 
