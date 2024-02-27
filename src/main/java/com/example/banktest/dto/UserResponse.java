@@ -2,6 +2,11 @@ package com.example.banktest.dto;
 
 import java.util.UUID;
 
+/**
+ *
+ * @author despinoza
+ *
+ */
 public class UserResponse {
 
 	private UUID id;

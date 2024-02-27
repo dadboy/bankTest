@@ -33,25 +33,17 @@ import com.example.banktest.entity.User;
 @Validated
 public class UserController {
 
-//	private final UserService userService;
-
 	@Autowired
 	private UserFacade userFacade;
 
-	// TODO; eliminar
-//	public UserController(UserService userService) {
-//		this.userService = userService;
-//	}
-
 	@PostMapping(value = "/", consumes = {
 			MediaType.APPLICATION_JSON_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> create(@Valid @RequestBody UserRequest userRequest, 
-			 @RequestHeader(value = "x-auth-token") String xAuthToken) {
+	public ResponseEntity<?> create(@Valid @RequestBody UserRequest userRequest,
+			@RequestHeader(value = "x-auth-token") String xAuthToken) {
 
-		ResponseEntity<?> response = userFacade.save(userRequest,xAuthToken);
+		ResponseEntity<?> response = userFacade.save(userRequest, xAuthToken);
 
 		return ResponseEntity.ok(response.getBody());
-//		return userFacade.save(userRequest);
 	}
 
 	@GetMapping
@@ -100,6 +92,5 @@ public class UserController {
 			return response;
 		}
 	}
-
 
 }

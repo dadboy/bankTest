@@ -13,6 +13,11 @@ import com.example.banktest.entity.Phone;
 import com.example.banktest.entity.User;
 import com.example.banktest.entity.UserRepository;
 
+/**
+ *
+ * @author despinoza
+ *
+ */
 @Component
 public class DataLoader implements CommandLineRunner {
 

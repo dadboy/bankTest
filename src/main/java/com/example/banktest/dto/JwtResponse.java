@@ -1,5 +1,10 @@
 package com.example.banktest.dto;
 
+/**
+ *
+ * @author despinoza
+ *
+ */
 public class JwtResponse {
 
 	private String token;
