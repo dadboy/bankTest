@@ -5,15 +5,14 @@ proyecto que contiene la logica para login api rest
 #Levantar proyecto
 
 1. tener version de java 17 instalada
-2. mvn clean install
-3. mvn spring-boot:run -Dspring-boot.run.profiles=dev
+2. mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
 #Url swagger UI
 http://localhost:8080/banktest/swagger-ui.html#/
 
 
 
-pasos para realizar pruebas
+#Pruebas Apis
 
 
 #1. se debe consultar la api http://localhost:8080/banktest/api/v1/user?user=david&password=asdasd
