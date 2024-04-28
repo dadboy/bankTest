@@ -35,7 +35,7 @@ http://localhost:8080/banktest/swagger-ui.html#/
 
 Ejemplo
 
-![Imagen de prueba](https://github.com/dadboy/bankTest/blob/master/src/main/resources/CreateAPi.png)
+![Imagen de prueba](https://github.com/dadboy/bankTest/blob/main/src/main/resources/CreateAPi.png)
 
 
 
